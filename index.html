@@ -3,335 +3,164 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>🎮 تطبيق ألعاب نقاط - مع تسجيل مستخدم</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+<title>🎮 تطبيق ألعاب نقاط - 50 لعبة</title>
 <style>
-  body {
-    margin: 0; font-family: 'Cairo', sans-serif; background: #121212; color: #fff; display: flex; height: 100vh;
-  }
-  .sidebar {
-    width: 220px; background: #1f1f1f; padding: 20px; display: flex; flex-direction: column;
-  }
-  .sidebar h2 {
-    margin-bottom: 15px; font-size: 22px;
-  }
-  .sidebar button {
-    background: #333; border: none; margin-bottom: 10px; padding: 10px; border-radius: 8px;
-    cursor: pointer; color: #fff; transition: background 0.3s;
-    text-align: right;
-  }
-  .sidebar button:hover {
-    background: #555;
-  }
-  .main {
-    flex-grow: 1; padding: 20px; overflow-y: auto;
-  }
-  .top-bar {
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
-  }
-  .balance {
-    background: #222; padding: 12px 20px; border-radius: 10px; font-weight: bold; font-size: 18px;
-  }
-  .lang-toggle {
-    background: #444; border: none; color: #fff; padding: 8px 14px; border-radius: 8px;
-    cursor: pointer; font-weight: 600;
-  }
-  .user-info {
-    background: #222; padding: 12px 20px; border-radius: 10px; margin-bottom: 15px;
-    font-size: 16px;
-  }
-  .game-list {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;
+  body { font-family: 'Cairo', sans-serif; background: #121212; color: #fff; margin:0; }
+  .container { max-width: 1200px; margin: auto; padding: 20px; }
+  h1 { text-align: center; margin-bottom: 20px; }
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
+    gap: 15px;
   }
   .game-card {
-    background: #1e1e1e; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.6);
-    transition: transform 0.3s ease;
+    background: #222;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+    transition: transform 0.3s;
   }
   .game-card:hover {
     transform: scale(1.05);
   }
   .game-card h3 {
-    margin-bottom: 15px;
+    margin: 0 0 10px 0;
+    font-weight: 700;
   }
   .game-card button {
-    background: #03dac6; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer;
-    font-weight: 700; color: #000;
-    transition: background 0.3s ease;
+    background: #03dac6;
+    border: none;
+    padding: 10px 15px;
+    font-weight: 700;
+    color: #000;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
   }
   .game-card button:hover {
     background: #00b89c;
   }
   .result {
-    margin-top: 12px; font-size: 15px; min-height: 25px; min-width: 100%;
-  }
-  input[type="number"], input[type="text"] {
-    width: 70px; padding: 7px; border-radius: 8px; border: none; margin-top: 10px;
-    font-size: 16px;
-  }
-  #loginSection {
-    background: #222; padding: 30px; border-radius: 15px; max-width: 300px; margin: auto;
-  }
-  #loginSection input[type="text"] {
-    width: 100%; margin-bottom: 15px;
-  }
-  #loginSection button {
-    width: 100%; padding: 12px; font-size: 16px; font-weight: 700;
-    background: #03dac6; border: none; border-radius: 8px; cursor: pointer; color: #000;
+    margin-top: 10px;
+    min-height: 20px;
+    font-size: 14px;
   }
 </style>
 </head>
 <body>
 
-<div class="sidebar">
-  <h2>🎮 القائمة</h2>
-  <button onclick="showSection('games')">🕹️ الألعاب</button>
-  <button onclick="showSection('achievements')">🏆 الإنجازات</button>
-  <button onclick="showSection('leaderboard')">📈 المتصدرين</button>
-  <button onclick="resetGame()">🔄 إعادة تعيين</button>
-  <button onclick="toggleSound()">🔇/🔊 كتم الصوت</button>
-  <button class="lang-toggle" onclick="toggleLanguage()">🌐 اللغة</button>
-  <button id="logoutBtn" onclick="logout()" style="display:none; background:#b33;">تسجيل خروج</button>
-</div>
-
-<div class="main">
-
-  <div id="loginSection">
-    <h2>تسجيل الدخول</h2>
-    <input type="text" id="usernameInput" placeholder="أدخل اسم المستخدم" />
-    <button onclick="login()">تسجيل دخول</button>
-  </div>
-
-  <div id="appContent" style="display:none;">
-    <div class="top-bar">
-      <div class="user-info" id="userInfo"></div>
-      <div class="balance" id="balance">رصيدك: 0 نقطة</div>
-      <div id="language">اللغة: العربية</div>
-    </div>
-
-    <div id="section-games" class="section">
-      <div class="game-list">
-
-        <!-- الألعاب هنا مثل السابق -->
-        <div class="game-card">
-          <h3>🎲 النرد (5 نقاط)</h3>
-          <button onclick="playDice()">العب</button>
-          <div class="result" id="diceResult"></div>
-        </div>
-        <div class="game-card">
-          <h3>✂️ حجر ورق مقص (5 نقاط)</h3>
-          <button onclick="playRPS('rock')">🪨</button>
-          <button onclick="playRPS('paper')">📄</button>
-          <button onclick="playRPS('scissors')">✂️</button>
-          <div class="result" id="rpsResult"></div>
-        </div>
-        <!-- أضف باقي الألعاب كما في النسخة السابقة -->
-
-      </div>
-    </div>
-
-    <div id="section-achievements" class="section" style="display:none;">
-      <h2>🏆 الإنجازات</h2>
-      <ul id="achievementsList"></ul>
-    </div>
-
-    <div id="section-leaderboard" class="section" style="display:none;">
-      <h2>📈 المتصدرين</h2>
-      <ol id="leaderboardList"></ol>
-    </div>
-  </div>
+<div class="container">
+  <h1>🎮 ألعاب نقاط - 50 لعبة</h1>
+  <div class="games-grid" id="gamesGrid"></div>
 </div>
 
 <script>
-let currentUser = null;
-let balance = 0;
-let achievements = new Set();
-let leaderboard = [];
-let mute = false;
-let language = "ar";
+  // بيانات المستخدم (للتبسيط بدون تسجيل)
+  let balance = 100;
+  const costPerGame = 5;
+  const rewardWin = 10;
 
-function saveUserData() {
-  if (!currentUser) return;
-  localStorage.setItem("user_" + currentUser, JSON.stringify({
-    balance,
-    achievements: [...achievements]
-  }));
-}
-
-function loadUserData() {
-  if (!currentUser) return;
-  let data = localStorage.getItem("user_" + currentUser);
-  if (data) {
-    let obj = JSON.parse(data);
-    balance = obj.balance || 100;
-    achievements = new Set(obj.achievements || []);
-  } else {
-    balance = 100;
-    achievements = new Set();
+  // قائمة بأسماء 50 لعبة (يمكن استبدالها أو تطويرها لاحقًا)
+  const gamesList = [];
+  for(let i=1; i<=50; i++){
+    gamesList.push(`لعبة رقم ${i}`);
   }
-}
 
-function login() {
-  let username = document.getElementById("usernameInput").value.trim();
-  if (!username) {
-    alert("يرجى إدخال اسم المستخدم");
-    return;
-  }
-  currentUser = username;
-  loadUserData();
-  loadLeaderboard();
-  document.getElementById("loginSection").style.display = "none";
-  document.getElementById("appContent").style.display = "block";
-  document.getElementById("logoutBtn").style.display = "block";
-  document.getElementById("userInfo").textContent = `مرحباً، ${currentUser}`;
-  updateBalance();
-  updateAchievements();
-  updateLeaderboard();
-}
+  // نعرض الألعاب في شبكة + نضيف 3 ألعاب فعلية مع وظائف
+  const gamesGrid = document.getElementById('gamesGrid');
 
-function logout() {
-  saveUserData();
-  currentUser = null;
-  document.getElementById("loginSection").style.display = "block";
-  document.getElementById("appContent").style.display = "none";
-  document.getElementById("logoutBtn").style.display = "none";
-  document.getElementById("usernameInput").value = "";
-}
+  gamesList.forEach((gameName, idx) => {
+    const card = document.createElement('div');
+    card.className = 'game-card';
 
-// التوازن
-function updateBalance() {
-  document.getElementById("balance").textContent = `رصيدك: ${balance} نقطة`;
-  saveUserData();
-  checkAchievements();
-  updateLeaderboard();
-}
+    card.innerHTML = `
+      <h3>${gameName} (تكلفة اللعب: ${costPerGame} نقاط)</h3>
+      <button id="playBtn${idx}">العب</button>
+      <div class="result" id="result${idx}"></div>
+    `;
 
-// إعادة تعيين
-function resetGame() {
-  if (!currentUser) return alert("يجب تسجيل الدخول أولاً");
-  if (confirm("هل تريد إعادة تعيين الرصيد والإنجازات؟")) {
-    balance = 100;
-    achievements.clear();
-    saveUserData();
-    updateBalance();
-    updateAchievements();
-  }
-}
-
-// الإنجازات
-function updateAchievements() {
-  const list = document.getElementById("achievementsList");
-  list.innerHTML = "";
-  if (achievements.size === 0) {
-    list.innerHTML = "<li>لا توجد إنجازات حتى الآن</li>";
-    return;
-  }
-  achievements.forEach(a => {
-    const li = document.createElement("li");
-    li.textContent = a;
-    list.appendChild(li);
+    gamesGrid.appendChild(card);
   });
-}
 
-function checkAchievements() {
-  if (balance >= 200 && !achievements.has("🏅 وصلت إلى 200 نقطة!")) achievements.add("🏅 وصلت إلى 200 نقطة!");
-  if (balance >= 500 && !achievements.has("🥇 وصلت إلى 500 نقطة!")) achievements.add("🥇 وصلت إلى 500 نقطة!");
-  updateAchievements();
-}
+  // ألعاب فعلية فقط لـ 3 ألعاب (كمثال)
+  document.getElementById('playBtn0').onclick = function() {
+    playDice(0);
+  };
+  document.getElementById('playBtn1').onclick = function() {
+    playCoinFlip(1);
+  };
+  document.getElementById('playBtn2').onclick = function() {
+    playGuessNumber(2);
+  };
 
-// المتصدرين
-function loadLeaderboard() {
-  let data = localStorage.getItem("leaderboard");
-  leaderboard = data ? JSON.parse(data) : [];
-}
+  // ألعاب افتراضية لبقية الألعاب (تعطي رسالة فقط)
+  for(let i=3; i<50; i++){
+    document.getElementById(`playBtn${i}`).onclick = function() {
+      alert('هذه اللعبة غير متاحة حالياً. جرب الألعاب الثلاثة الأولى.');
+    };
+  }
 
-function updateLeaderboard() {
-  if (!currentUser) return;
-  // تحديث أو إضافة
-  let found = false;
-  for (let i = 0; i < leaderboard.length; i++) {
-    if (leaderboard[i].name === currentUser) {
-      leaderboard[i].score = balance;
-      found = true;
-      break;
+  // 1. لعبة النرد
+  function playDice(idx) {
+    if (balance < costPerGame) {
+      alert('رصيدك غير كافٍ للعب!');
+      return;
     }
+    balance -= costPerGame;
+    const dice = Math.floor(Math.random() * 6) + 1;
+    let message = `نتيجة النرد: ${dice} - `;
+    if (dice >= 4) {
+      balance += rewardWin;
+      message += 'رابح! +10 نقاط';
+    } else {
+      message += 'خسر!';
+    }
+    document.getElementById(`result${idx}`).textContent = message;
   }
-  if (!found) {
-    leaderboard.push({ name: currentUser, score: balance });
+
+  // 2. لعبة رمية عملة
+  function playCoinFlip(idx) {
+    if (balance < costPerGame) {
+      alert('رصيدك غير كافٍ للعب!');
+      return;
+    }
+    balance -= costPerGame;
+    const flip = Math.random() < 0.5 ? 'وجه' : 'كتابة';
+    let win = flip === 'وجه'; // نربح إذا ظهر وجه
+    let message = `نتيجة رمية العملة: ${flip} - `;
+    if (win) {
+      balance += rewardWin;
+      message += 'رابح! +10 نقاط';
+    } else {
+      message += 'خسر!';
+    }
+    document.getElementById(`result${idx}`).textContent = message;
   }
-  leaderboard.sort((a,b) => b.score - a.score);
-  leaderboard = leaderboard.slice(0, 10);
-  localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
-  const list = document.getElementById("leaderboardList");
-  list.innerHTML = "";
-  leaderboard.forEach(entry => {
-    const li = document.createElement("li");
-    li.textContent = `${entry.name}: ${entry.score} نقاط`;
-    list.appendChild(li);
-  });
-}
 
-// لغة
-function toggleLanguage() {
-  language = language === "ar" ? "en" : "ar";
-  document.getElementById("language").textContent = language === "ar" ? "اللغة: العربية" : "Language: English";
-  // يمكن إضافة ترجمة باقي النصوص هنا
-}
-
-// كتم الصوت
-function toggleSound() {
-  mute = !mute;
-  alert(mute ? "تم كتم الصوت" : "تم تشغيل الصوت");
-}
-
-// التحقق من تسجيل الدخول قبل اللعب
-function requireLogin() {
-  if (!currentUser) {
-    alert("يجب تسجيل الدخول أولاً");
-    return false;
+  // 3. لعبة تخمين رقم من 1 إلى 5
+  function playGuessNumber(idx) {
+    if (balance < costPerGame) {
+      alert('رصيدك غير كافٍ للعب!');
+      return;
+    }
+    balance -= costPerGame;
+    let guess = prompt('اختر رقم من 1 إلى 5');
+    guess = Number(guess);
+    if (!guess || guess < 1 || guess > 5) {
+      alert('الرقم غير صالح!');
+      document.getElementById(`result${idx}`).textContent = '';
+      return;
+    }
+    const number = Math.floor(Math.random() * 5) + 1;
+    let message = `الرقم الصحيح: ${number} - أنت اخترت: ${guess} - `;
+    if (guess === number) {
+      balance += rewardWin;
+      message += 'رابح! +10 نقاط';
+    } else {
+      message += 'خسر!';
+    }
+    document.getElementById(`result${idx}`).textContent = message;
   }
-  return true;
-}
-
-// === الألعاب ===
-
-// 1. النرد
-function playDice() {
-  if (!requireLogin()) return;
-  if (balance < 5) return alert("رصيدك غير كافٍ للعب!");
-  balance -= 5;
-  updateBalance();
-  const dice = Math.floor(Math.random() * 6) + 1;
-  const win = dice >= 4; // 4,5,6 تربح
-  if (win) balance += 10;
-  updateBalance();
-  document.getElementById("diceResult").textContent = `نتيجة النرد: ${dice} - ${win ? "رابح!" : "خسر!"}`;
-}
-
-// 2. حجر ورق مقص
-function playRPS(choice) {
-  if (!requireLogin()) return;
-  if (balance < 5) return alert("رصيدك غير كافٍ للعب!");
-  balance -= 5;
-  updateBalance();
-  const options = ["rock", "paper", "scissors"];
-  const computer = options[Math.floor(Math.random() * 3)];
-  let result = "";
-  if (choice === computer) result = "تعادل";
-  else if (
-    (choice === "rock" && computer === "scissors") ||
-    (choice === "paper" && computer === "rock") ||
-    (choice === "scissors" && computer === "paper")
-  ) {
-    result = "رابح!";
-    balance += 10;
-  } else {
-    result = "خسر!";
-  }
-  updateBalance();
-  document.getElementById("rpsResult").textContent = `انت: ${choice} | الكمبيوتر: ${computer} - ${result}`;
-}
-
-// يمكن إضافة باقي الألعاب بنفس الطريقة مع التحقق من تسجيل الدخول وتحديث الرصيد.
 
 </script>
 
