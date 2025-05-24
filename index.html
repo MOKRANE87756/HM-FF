@@ -1,36 +1,47 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ألعاب تربح منها</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ألعاب النقاط الاحترافية</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Cairo', sans-serif;
-    }
-
     body {
       background-color: #121212;
-      color: #f5f5f5;
+      color: #fff;
+      font-family: 'Cairo', sans-serif;
       padding: 20px;
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
+    .controls {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .controls button {
+      margin: 5px;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .reset { background: #e53935; color: #fff; }
+    .mute { background: #424242; color: #fff; }
+
     .balance {
-      background: #1f1f1f;
-      padding: 10px 20px;
+      background: #1e1e1e;
+      padding: 10px;
       border-radius: 10px;
       text-align: center;
-      font-size: 20px;
-      margin-bottom: 30px;
+      font-size: 18px;
+      margin-bottom: 20px;
     }
 
     .games {
@@ -40,16 +51,14 @@
     }
 
     .game-card {
-      background-color: #1f1f1f;
+      background: #1f1f1f;
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       transition: transform 0.3s ease;
     }
 
-    .game-card:hover {
-      transform: scale(1.02);
-    }
+    .game-card:hover { transform: scale(1.02); }
 
     .game-card h2 {
       margin-bottom: 10px;
@@ -60,7 +69,7 @@
       margin-top: 10px;
       padding: 10px 15px;
       border: none;
-      background-color: #03DAC6;
+      background-color: #03dac6;
       color: #000;
       border-radius: 8px;
       font-weight: bold;
@@ -69,150 +78,258 @@
 
     .result {
       margin-top: 10px;
-      font-size: 16px;
+      font-size: 15px;
       min-height: 24px;
     }
 
     input[type="number"] {
       width: 60px;
       padding: 6px;
-      margin-top: 10px;
       border-radius: 6px;
+      margin-top: 10px;
       border: none;
+    }
+
+    .achievements, .leaderboard {
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 25px;
+    }
+
+    .achievements h3, .leaderboard h3 {
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .achievements ul, .leaderboard ol {
+      padding-right: 20px;
     }
   </style>
 </head>
 <body>
 
-<h1>🎮 ألعاب تربح منها نقاط</h1>
+<h1>🎮 ألعاب تربح منها النقاط</h1>
+
+<div class="controls">
+  <button class="reset" onclick="resetGame()">🔁 إعادة تعيين</button>
+  <button class="mute" onclick="toggleSound()">🔊 كتم/تشغيل الصوت</button>
+</div>
+
 <div class="balance">رصيدك: <span id="balance">100</span> نقطة</div>
 
 <div class="games">
-  <!-- النرد -->
+  <!-- Dice Game -->
   <div class="game-card">
-    <h2>🎲 لعبة النرد - (5 نقاط)</h2>
+    <h2>🎲 النرد (5 نقاط)</h2>
     <button onclick="playDice()">العب</button>
     <div class="result" id="diceResult"></div>
   </div>
 
-  <!-- حجر ورق مقص -->
+  <!-- RPS -->
   <div class="game-card">
-    <h2>✂️ حجر ورق مقص - (5 نقاط)</h2>
-    <button onclick="playRPS('rock')">🪨 حجر</button>
-    <button onclick="playRPS('paper')">📄 ورق</button>
-    <button onclick="playRPS('scissors')">✂️ مقص</button>
+    <h2>✂️ حجر ورق مقص (5 نقاط)</h2>
+    <button onclick="playRPS('rock')">🪨</button>
+    <button onclick="playRPS('paper')">📄</button>
+    <button onclick="playRPS('scissors')">✂️</button>
     <div class="result" id="rpsResult"></div>
   </div>
 
-  <!-- التخمين -->
+  <!-- Guessing -->
   <div class="game-card">
-    <h2>🔢 خمن رقم (1-10) - (5 نقاط)</h2>
-    <input type="number" id="guessInput" min="1" max="10"/>
+    <h2>🔢 خمن رقم 1-10 (5 نقاط)</h2>
+    <input type="number" id="guessInput" min="1" max="10">
     <button onclick="playGuess()">خمن</button>
     <div class="result" id="guessResult"></div>
   </div>
 
-  <!-- سلوتس -->
+  <!-- Slots -->
   <div class="game-card">
-    <h2>🎰 سلوتس - (10 نقاط)</h2>
+    <h2>🎰 سلوتس (10 نقاط)</h2>
     <button onclick="spinSlots()">🎯 تدوير</button>
     <div class="result" id="slotDisplay">🍒 🍋 🍊</div>
     <div class="result" id="slotResult"></div>
   </div>
+
+  <!-- New Game: Card Flip -->
+  <div class="game-card">
+    <h2>🃏 سحب كرت (5 نقاط)</h2>
+    <button onclick="flipCard()">اسحب كرت</button>
+    <div class="result" id="cardResult"></div>
+  </div>
+</div>
+
+<div class="achievements">
+  <h3>🏆 إنجازاتك</h3>
+  <ul id="achievementsList"></ul>
+</div>
+
+<div class="leaderboard">
+  <h3>📈 أعلى اللاعبين</h3>
+  <ol id="leaderboardList"></ol>
 </div>
 
 <audio id="winSound" src="https://www.myinstants.com/media/sounds/coin.mp3"></audio>
 
 <script>
-  let balance = localStorage.getItem('balance') ? parseInt(localStorage.getItem('balance')) : 100;
-  const balanceEl = document.getElementById('balance');
-  const winSound = document.getElementById('winSound');
+let balance = parseInt(localStorage.getItem("balance")) || 100;
+let mute = localStorage.getItem("mute") === "true";
+const winSound = document.getElementById("winSound");
+let achievements = new Set(JSON.parse(localStorage.getItem("achievements")) || []);
+let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
 
-  function updateBalance() {
-    balanceEl.textContent = balance;
-    localStorage.setItem('balance', balance);
+function playSound() {
+  if (!mute) winSound.play();
+}
+
+function updateBalance() {
+  document.getElementById("balance").textContent = balance;
+  localStorage.setItem("balance", balance);
+  checkAchievements();
+  updateLeaderboard();
+}
+
+function resetGame() {
+  if (confirm("هل أنت متأكد من إعادة التعيين؟")) {
+    balance = 100;
+    achievements.clear();
+    localStorage.removeItem("achievements");
+    updateBalance();
+    updateAchievements();
   }
+}
 
+function toggleSound() {
+  mute = !mute;
+  localStorage.setItem("mute", mute);
+  alert(mute ? "🔇 تم كتم الصوت" : "🔊 تم تشغيل الصوت");
+}
+
+function checkAchievements() {
+  if (balance >= 200) achievements.add("🎉 جمعت أكثر من 200 نقطة!");
+  if (balance >= 300) achievements.add("💎 محترف اللعب!");
+  localStorage.setItem("achievements", JSON.stringify([...achievements]));
+  updateAchievements();
+}
+
+function updateAchievements() {
+  const list = document.getElementById("achievementsList");
+  list.innerHTML = "";
+  achievements.forEach(ach => {
+    const li = document.createElement("li");
+    li.textContent = ach;
+    list.appendChild(li);
+  });
+}
+
+function updateLeaderboard() {
+  leaderboard.push(balance);
+  leaderboard = [...new Set(leaderboard)].sort((a,b)=>b-a).slice(0,5);
+  localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+  const list = document.getElementById("leaderboardList");
+  list.innerHTML = "";
+  leaderboard.forEach(score => {
+    const li = document.createElement("li");
+    li.textContent = `💰 ${score} نقطة`;
+    list.appendChild(li);
+  });
+}
+
+function cost(points) {
+  if (balance < points) return alert("رصيد غير كافٍ!"); 
+  balance -= points;
+}
+
+function playDice() {
+  cost(5);
+  const roll = Math.floor(Math.random() * 6) + 1;
+  let result = `🎲 حصلت على: ${roll}`;
+  if (roll >= 4) {
+    balance += 10;
+    result += " - فزت!";
+    playSound();
+  } else result += " - لم تفز.";
+  document.getElementById("diceResult").textContent = result;
   updateBalance();
+}
 
-  function playDice() {
-    if (balance < 5) return alert('رصيد غير كافٍ');
-    balance -= 5;
-    const roll = Math.floor(Math.random() * 6) + 1;
-    let result = `🎲 رميت: ${roll}`;
-    if (roll >= 4) {
-      balance += 10;
-      winSound.play();
-      result += ' - فزت بـ 10 نقاط!';
-    } else {
-      result += ' - لم تفز.';
-    }
-    document.getElementById('diceResult').textContent = result;
-    updateBalance();
+function playRPS(player) {
+  cost(5);
+  const choices = ['rock', 'paper', 'scissors'];
+  const icons = { rock:'🪨', paper:'📄', scissors:'✂️' };
+  const computer = choices[Math.floor(Math.random() * 3)];
+  let result = `أنت: ${icons[player]} - كمبيوتر: ${icons[computer]}`;
+  if ((player === 'rock' && computer === 'scissors') || (player === 'paper' && computer === 'rock') || (player === 'scissors' && computer === 'paper')) {
+    result += " - فزت!";
+    balance += 10;
+    playSound();
+  } else if (player === computer) {
+    result += " - تعادل!";
+    balance += 5;
+  } else {
+    result += " - خسرت!";
   }
+  document.getElementById("rpsResult").textContent = result;
+  updateBalance();
+}
 
-  function playRPS(player) {
-    if (balance < 5) return alert('رصيد غير كافٍ');
-    balance -= 5;
-    const choices = ['rock', 'paper', 'scissors'];
-    const map = { rock: '🪨', paper: '📄', scissors: '✂️' };
-    const comp = choices[Math.floor(Math.random() * 3)];
-    let result = `أنت: ${map[player]} | كمبيوتر: ${map[comp]}`;
-    if (
-      (player === 'rock' && comp === 'scissors') ||
-      (player === 'paper' && comp === 'rock') ||
-      (player === 'scissors' && comp === 'paper')
-    ) {
-      balance += 10;
-      result += ' → فزت!';
-      winSound.play();
-    } else if (player === comp) {
-      balance += 5;
-      result += ' → تعادل!';
-    } else {
-      result += ' → خسرت!';
-    }
-    document.getElementById('rpsResult').textContent = result;
-    updateBalance();
+function playGuess() {
+  const guess = parseInt(document.getElementById("guessInput").value);
+  if (!guess || guess < 1 || guess > 10) return alert("اختر رقم من 1 إلى 10");
+  cost(5);
+  const number = Math.floor(Math.random() * 10) + 1;
+  if (guess === number) {
+    balance += 30;
+    playSound();
+    document.getElementById("guessResult").textContent = `🎯 صحيح! الرقم ${number}`;
+  } else {
+    document.getElementById("guessResult").textContent = `❌ الرقم الصحيح: ${number}`;
   }
+  updateBalance();
+}
 
-  function playGuess() {
-    const guess = parseInt(document.getElementById('guessInput').value);
-    if (isNaN(guess) || guess < 1 || guess > 10) return alert('اختر رقم من 1 إلى 10');
-    if (balance < 5) return alert('رصيد غير كافٍ');
-    balance -= 5;
-    const number = Math.floor(Math.random() * 10) + 1;
-    if (guess === number) {
-      balance += 30;
-      winSound.play();
-      document.getElementById('guessResult').textContent = `🎯 صحيح! الرقم هو ${number}. فزت بـ 30 نقطة!`;
-    } else {
-      document.getElementById('guessResult').textContent = `❌ الرقم كان ${number}. حاول مرة أخرى.`;
-    }
-    updateBalance();
+function spinSlots() {
+  cost(10);
+  const items = ['🍒','🍋','🍊','⭐','🔔'];
+  const [r1, r2, r3] = [0,0,0].map(() => items[Math.floor(Math.random()*items.length)]);
+  document.getElementById("slotDisplay").textContent = `${r1} ${r2} ${r3}`;
+  let result = "لم تفز.";
+  if (r1 === r2 && r2 === r3) {
+    balance += 50;
+    result = "🎉 فزت بـ 50 نقطة!";
+    playSound();
+  } else if (r1 === r2 || r2 === r3 || r1 === r3) {
+    balance += 15;
+    result = "✨ فزت بـ 15 نقطة!";
+    playSound();
   }
+  document.getElementById("slotResult").textContent = result;
+  updateBalance();
+}
 
-  function spinSlots() {
-    if (balance < 10) return alert('رصيد غير كافٍ');
-    balance -= 10;
-    const symbols = ['🍒', '🍋', '🍊', '🍉', '⭐', '🔔'];
-    const r1 = symbols[Math.floor(Math.random() * symbols.length)];
-    const r2 = symbols[Math.floor(Math.random() * symbols.length)];
-    const r3 = symbols[Math.floor(Math.random() * symbols.length)];
-    document.getElementById('slotDisplay').textContent = `${r1} ${r2} ${r3}`;
-    let result = 'لم تفز.';
-    if (r1 === r2 && r2 === r3) {
-      balance += 50;
-      winSound.play();
-      result = '🎉 فزت بـ 50 نقطة!';
-    } else if (r1 === r2 || r2 === r3 || r1 === r3) {
-      balance += 15;
-      winSound.play();
-      result = '✨ زوج متشابه! فزت بـ 15 نقطة!';
-    }
-    document.getElementById('slotResult').textContent = result;
-    updateBalance();
+function flipCard() {
+  cost(5);
+  const cards = ['❤️','♠️','♣️','♦️','🃏'];
+  const drawn = cards[Math.floor(Math.random()*cards.length)];
+  let result = `🃏 سحبت: ${drawn}`;
+  if (drawn === '🃏') {
+    balance += 50;
+    result += " - فزت بـ 50 نقطة!";
+    playSound();
+  } else if (drawn === '♠️') {
+    balance += 15;
+    result += " - فزت بـ 15 نقطة!";
+    playSound();
+  } else {
+    result += " - لا شيء.";
   }
+  document.getElementById("cardResult").textContent = result;
+  updateBalance();
+}
+
+updateBalance();
+updateAchievements();
+updateLeaderboard();
 </script>
 </body>
 </html>
