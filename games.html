@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🎮 تطبيق ألعاب نقاط - 50 لعبة</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: #121212;
+    color: #fff;
+    margin:0; padding:0;
+  }
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 900;
+    color: #03dac6;
+  }
+  .balance {
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 700;
+    color: #bb86fc;
+  }
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
+    gap: 15px;
+  }
+  .game-card {
+    background: #222;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .game-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px #03dac6aa;
+  }
+  .game-card h3 {
+    margin: 0 0 10px 0;
+    font-weight: 700;
+    font-size: 18px;
+    color: #03dac6;
+  }
+  .game-card button {
+    background: #03dac6;
+    border: none;
+    padding: 10px 15px;
+    font-weight: 700;
+    color: #000;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
+    font-size: 16px;
+  }
+  .game-card button:hover {
+    background: #00b89c;
+  }
+  .result {
+    margin-top: 12px;
+    min-height: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #bb86fc;
+    word-wrap: break-word;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🎮 ألعاب نقاط - 50 لعبة</h1>
+  <div class="balance" id="balanceDisplay">رصيدك: 100 نقطة</div>
+  <div class="games-grid" id="gamesGrid"></div>
+</div>
+
+<script>
+  // إعدادات النقاط
+  let balance = 100;
+  const costPerGame = 5;
+  const rewardWin = 10;
+
+  // إنشاء قائمة الألعاب 50 لعبة بأسماء افتراضية
+  const gamesList = [];
+  for(let i=1; i<=50; i++){
+    gamesList.push(`لعبة رقم ${i}`);
+  }
+
+  const gamesGrid = document.getElementById('gamesGrid');
+  const balanceDisplay = document.getElementById('balanceDisplay');
+
+  // تحديث عرض الرصيد
+  function updateBalance(){
+    balanceDisplay.textContent = `رصيدك: ${balance} نقطة${balance !== 1 ? 'ً' : ''}`;
+  }
+
+  // إنشاء بطاقات الألعاب
+  gamesList.forEach((gameName, idx) => {
+    const card = document.createElement('div');
+    card.className = 'game-card';
+
+    card.innerHTML = `
+      <h3>${gameName} (تكلفة اللعب: ${costPerGame} نقاط)</h3>
+      <button id="playBtn${idx}">العب</button>
+      <div class="result" id="result${idx}"></div>
+    `;
+    gamesGrid.appendChild(card);
+  });
+
+  // ألعاب مفعلة فقط: 0,1,2 (نرد، عملة، تخمين رقم)
+  document.getElementById('playBtn0').onclick = function() { playDice(0); };
+  document.getElementById('playBtn1').onclick = function() { playCoinFlip(1); };
+  document.getElementById('playBtn2').onclick = function() { playGuessNumber(2); };
+
+  // باقي الألعاب: تنبيه بعدم توفر اللعبة
+  for(let i=3; i<50; i++){
+    document.getElementById(`playBtn${i}`).onclick = function() {
+      alert('هذه اللعبة غير متاحة حالياً. جرب الألعاب الثلاثة الأولى.');
+    };
+  }
+
+  // ألعاب:
+  // 1. لعبة النرد
+  function playDice(idx) {
+    if(balance < costPerGame) {
+      alert('رصيدك غير كافٍ للعب!');
+      return;
+    }
+    balance -= costPerGame;
+    const dice = Math.floor(Math.random() * 6) + 1;
+    let message = `نتيجة النرد: ${dice} - `;
+    if(dice >= 4) {
+      balance += rewardWin;
+      message += 'رابح! +10 نقاط';
+    } else {
+      message += 'خسر!';
+    }
+    document.getElementById(`result${idx}`).textContent = message;
+    updateBalance();
+  }
+
+  // 2. لعبة رمية عملة
+  function playCoinFlip(idx) {
+    if(balance < costPerGame) {
+      alert('رصيدك غير كافٍ للعب!');
+      return;
+    }
+    balance -= costPerGame;
+    const flip = Math.random() < 0.5 ? 'وجه' : 'كتابة';
+    let win = flip === 'وجه';
+    let message = `نتيجة رمية العملة: ${flip} - `;
+    if(win) {
+      balance += rewardWin;
+      message += 'رابح! +10 نقاط';
+    } else {
+      message += 'خسر!';
+    }
+    document.getElementById(`result${idx}`).textContent = message;
+    updateBalance();
+  }
+
+  // 3. لعبة تخمين رقم من 1 إلى 5
+  function playGuessNumber(idx) {
+    if(balance < costPerGame) {
+      alert('رصيدك غير كافٍ للعب!');
+      return;
+    }
+    balance -= costPerGame;
+    let guess = prompt('اختر رقم من 1 إلى 5');
+    guess = Number(guess);
+    if(!guess || guess < 1 || guess > 5) {
+      alert('الرقم غير صالح!');
+      document.getElementById(`result${idx}`).textContent = '';
+      updateBalance();
+      return;
+    }
+    const number = Math.floor(Math.random() * 5) + 1;
+    let message = `الرقم الصحيح: ${number} - أنت اخترت: ${guess} - `;
+    if(guess === number) {
+      balance += rewardWin;
+      message += 'رابح! +10 نقاط';
+    } else {
+      message += 'خسر!';
+    }
+    document.getElementById(`result${idx}`).textContent = message;
+    updateBalance();
+  }
+
+  updateBalance();
+</script>
+
+</body>
+</html>
