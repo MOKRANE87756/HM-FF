@@ -2,531 +2,217 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>تطبيق ألعاب ربح نقاط</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ألعاب تربح منها</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      background: #1e1e2f;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: white;
+    * {
       margin: 0;
-      padding: 20px;
-      user-select: none;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
     }
+
+    body {
+      background-color: #121212;
+      color: #f5f5f5;
+      padding: 20px;
+    }
+
     h1 {
-      margin-bottom: 10px;
-      color: #fbc531;
-    }
-    #balance {
-      font-size: 22px;
-      margin-bottom: 20px;
-      color: #4cd137;
-    }
-    nav {
-      margin-bottom: 20px;
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    nav button {
-      background: #273c75;
-      border: none;
-      padding: 10px 18px;
-      font-size: 16px;
-      border-radius: 8px;
-      color: white;
-      cursor: pointer;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.4);
-      transition: background 0.3s ease;
-    }
-    nav button.active,
-    nav button:hover {
-      background: #fbc531;
-      color: #2f3640;
-      font-weight: bold;
-      box-shadow: 0 5px 15px rgba(251,197,49,0.6);
-    }
-
-    section {
-      width: 320px;
-      background: #2f3640;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 0 25px #fbc531aa;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-    }
-    section.active {
-      display: flex;
-    }
-
-    /* --- روليت --- */
-    #wheel {
-      margin: 0 auto 20px auto;
-      position: relative;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      overflow: hidden;
-      box-shadow: 0 0 15px rgba(0,0,0,0.6);
-      border: 8px solid #fbc531;
-      background: conic-gradient(
-        #e1b12c 0deg 60deg,
-        #fbc531 60deg 120deg,
-        #f5f6fa 120deg 180deg,
-        #e1b12c 180deg 240deg,
-        #fbc531 240deg 300deg,
-        #f5f6fa 300deg 360deg
-      );
-      transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
-    }
-    #pointer {
-      width: 0; 
-      height: 0; 
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-bottom: 30px solid #fbc531;
-      position: relative;
-      top: -15px;
-      margin: 0 auto 30px auto;
-      filter: drop-shadow(0 0 4px #fbc531);
-    }
-    #spinBtn {
-      background-color: #fbc531;
-      border: none;
-      padding: 12px 30px;
-      border-radius: 30px;
-      color: #2f3640;
-      font-weight: bold;
-      font-size: 18px;
-      cursor: pointer;
-      box-shadow: 0 5px 15px #fbc531cc;
-      transition: background-color 0.3s ease;
-    }
-    #spinBtn:disabled {
-      background-color: #bbb;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-    #resultWheel {
-      margin-top: 15px;
-      font-size: 20px;
-      min-height: 30px;
-      font-weight: bold;
-      text-shadow: 0 0 6px #fbc531;
-      color: #fbc531;
-    }
-
-    /* --- حجر ورقة مقص --- */
-    #rpsChoices button {
-      margin: 10px 7px;
-      padding: 12px 18px;
-      font-size: 18px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      background-color: #44bd32;
-      color: white;
-      font-weight: bold;
-      box-shadow: 0 3px 10px #44bd32aa;
-      transition: background-color 0.3s ease;
-    }
-    #rpsChoices button:hover {
-      background-color: #40720d;
-    }
-    #rpsResult {
-      margin-top: 20px;
-      font-size: 20px;
-      min-height: 40px;
-      font-weight: bold;
-      color: #44bd32;
-      text-shadow: 0 0 6px #44bd32;
-    }
-
-    /* --- نرد --- */
-    #diceBtn {
-      background-color: #00a8ff;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 30px;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      cursor: pointer;
-      box-shadow: 0 5px 15px #00a8ffcc;
-      transition: background-color 0.3s ease;
-    }
-    #diceBtn:disabled {
-      background-color: #999;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-    #diceResult {
-      margin-top: 25px;
-      font-size: 24px;
-      font-weight: bold;
-      min-height: 30px;
-      color: #00a8ff;
-      text-shadow: 0 0 8px #00a8ff;
-    }
-
-    /* --- تخمين رقم --- */
-    #guessInput {
-      width: 80px;
-      padding: 10px;
-      font-size: 18px;
-      border-radius: 8px;
-      border: none;
       text-align: center;
-      margin-right: 10px;
-    }
-    #guessBtn {
-      background-color: #e84118;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 30px;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      cursor: pointer;
-      box-shadow: 0 5px 15px #e84118cc;
-      transition: background-color 0.3s ease;
-    }
-    #guessBtn:disabled {
-      background-color: #999;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-    #guessResult {
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: bold;
-      min-height: 40px;
-      color: #e84118;
-      text-shadow: 0 0 6px #e84118;
-    }
-
-    /* --- سلوتس --- */
-    #slotMachine {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
       margin-bottom: 20px;
     }
-    .slotReel {
-      background-color: #273c75;
-      width: 60px;
-      height: 60px;
-      border-radius: 12px;
-      font-size: 38px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.6);
-      user-select: none;
-    }
-    #slotSpinBtn {
-      background-color: #fbc531;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 30px;
-      color: #2f3640;
-      font-weight: bold;
-      font-size: 18px;
-      cursor: pointer;
-      box-shadow: 0 5px 15px #fbc531cc;
-      transition: background-color 0.3s ease;
-    }
-    #slotSpinBtn:disabled {
-      background-color: #bbb;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-    #slotResult {
-      margin-top: 15px;
+
+    .balance {
+      background: #1f1f1f;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-align: center;
       font-size: 20px;
+      margin-bottom: 30px;
+    }
+
+    .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .game-card {
+      background-color: #1f1f1f;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .game-card:hover {
+      transform: scale(1.02);
+    }
+
+    .game-card h2 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .game-card button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      border: none;
+      background-color: #03DAC6;
+      color: #000;
+      border-radius: 8px;
       font-weight: bold;
-      color: #fbc531;
-      text-shadow: 0 0 6px #fbc531;
-      min-height: 30px;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 10px;
+      font-size: 16px;
+      min-height: 24px;
+    }
+
+    input[type="number"] {
+      width: 60px;
+      padding: 6px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: none;
     }
   </style>
 </head>
 <body>
 
-  <h1>تطبيق ألعاب ربح نقاط</h1>
-  <div id="balance">رصيدك: <span id="points">100</span> نقطة</div>
+<h1>🎮 ألعاب تربح منها نقاط</h1>
+<div class="balance">رصيدك: <span id="balance">100</span> نقطة</div>
 
-  <nav>
-    <button class="tabBtn active" data-game="roulette">روليت</button>
-    <button class="tabBtn" data-game="rps">حجر ورقة مقص</button>
-    <button class="tabBtn" data-game="dice">لعبة نرد</button>
-    <button class="tabBtn" data-game="guess">تخمين رقم</button>
-    <button class="tabBtn" data-game="slots">سلوتس</button>
-  </nav>
+<div class="games">
+  <!-- النرد -->
+  <div class="game-card">
+    <h2>🎲 لعبة النرد - (5 نقاط)</h2>
+    <button onclick="playDice()">العب</button>
+    <div class="result" id="diceResult"></div>
+  </div>
 
-  <!-- لعبة روليت -->
-  <section id="roulette" class="active">
-    <div id="pointer"></div>
-    <div id="wheel"></div>
-    <button id="spinBtn">ادفع 10 نقاط وادفع العجلة</button>
-    <div id="resultWheel"></div>
-  </section>
+  <!-- حجر ورق مقص -->
+  <div class="game-card">
+    <h2>✂️ حجر ورق مقص - (5 نقاط)</h2>
+    <button onclick="playRPS('rock')">🪨 حجر</button>
+    <button onclick="playRPS('paper')">📄 ورق</button>
+    <button onclick="playRPS('scissors')">✂️ مقص</button>
+    <div class="result" id="rpsResult"></div>
+  </div>
 
-  <!-- حجر ورقة مقص -->
-  <section id="rps">
-    <div>اختر لعبتك:</div>
-    <div id="rpsChoices">
-      <button data-choice="rock">✊ حجر</button>
-      <button data-choice="paper">✋ ورقة</button>
-      <button data-choice="scissors">✌️ مقص</button>
-    </div>
-    <div id="rpsResult"></div>
-  </section>
-
-  <!-- لعبة نرد -->
-  <section id="dice">
-    <button id="diceBtn">ارمِ النرد (تكلفة 5 نقاط)</button>
-    <div id="diceResult"></div>
-  </section>
-
-  <!-- تخمين رقم -->
-  <section id="guess">
-    <div>اختر رقم من 1 إلى 10:</div>
-    <input type="number" id="guessInput" min="1" max="10" />
-    <button id="guessBtn">احزر الرقم (تكلفة 5 نقاط)</button>
-    <div id="guessResult"></div>
-  </section>
+  <!-- التخمين -->
+  <div class="game-card">
+    <h2>🔢 خمن رقم (1-10) - (5 نقاط)</h2>
+    <input type="number" id="guessInput" min="1" max="10"/>
+    <button onclick="playGuess()">خمن</button>
+    <div class="result" id="guessResult"></div>
+  </div>
 
   <!-- سلوتس -->
-  <section id="slots">
-    <div id="slotMachine">
-      <div class="slotReel" id="slot1">🍒</div>
-      <div class="slotReel" id="slot2">🍋</div>
-      <div class="slotReel" id="slot3">🍊</div>
-    </div>
-    <button id="slotSpinBtn">ادفع 10 نقاط وادفع سلوتس</button>
-    <div id="slotResult"></div>
-  </section>
+  <div class="game-card">
+    <h2>🎰 سلوتس - (10 نقاط)</h2>
+    <button onclick="spinSlots()">🎯 تدوير</button>
+    <div class="result" id="slotDisplay">🍒 🍋 🍊</div>
+    <div class="result" id="slotResult"></div>
+  </div>
+</div>
+
+<audio id="winSound" src="https://www.myinstants.com/media/sounds/coin.mp3"></audio>
 
 <script>
-  // رصيد النقاط
-  let balance = 100;
-  const pointsSpan = document.getElementById('points');
+  let balance = localStorage.getItem('balance') ? parseInt(localStorage.getItem('balance')) : 100;
+  const balanceEl = document.getElementById('balance');
+  const winSound = document.getElementById('winSound');
+
   function updateBalance() {
-    pointsSpan.textContent = balance;
+    balanceEl.textContent = balance;
+    localStorage.setItem('balance', balance);
   }
+
   updateBalance();
 
-  // التبديل بين الألعاب
-  const tabButtons = document.querySelectorAll('nav .tabBtn');
-  const sections = document.querySelectorAll('section');
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const game = btn.getAttribute('data-game');
-      sections.forEach(sec => {
-        sec.classList.toggle('active', sec.id === game);
-      });
-      clearMessages();
-    });
-  });
-  function clearMessages() {
-    document.getElementById('resultWheel').textContent = '';
-    document.getElementById('rpsResult').textContent = '';
-    document.getElementById('diceResult').textContent = '';
-    document.getElementById('guessResult').textContent = '';
-    document.getElementById('slotResult').textContent = '';
-  }
-
-  // --- روليت ---
-  const wheel = document.getElementById('wheel');
-  const spinBtn = document.getElementById('spinBtn');
-  const resultWheel = document.getElementById('resultWheel');
-
-  const costSpin = 10;
-  const segments = 6;
-  const segmentPoints = [5, 10, 15, 20, 25, 50];
-
-  function getRandomSegment() {
-    return Math.floor(Math.random() * segments);
-  }
-
-  spinBtn.addEventListener('click', () => {
-    if (balance < costSpin) {
-      alert('ليس لديك نقاط كافية للدوران.');
-      return;
-    }
-    balance -= costSpin;
-    updateBalance();
-    resultWheel.textContent = '';
-    spinBtn.disabled = true;
-
-    const segment = getRandomSegment();
-    const segmentAngle = 360 / segments;
-    const stopAngle = 3600 + (segments - segment) * segmentAngle - segmentAngle / 2;
-
-    wheel.style.transition = 'transform 4s cubic-bezier(0.25, 0.1, 0.25, 1)';
-    wheel.style.transform = `rotate(${stopAngle}deg)`;
-
-    wheel.addEventListener('transitionend', () => {
-      spinBtn.disabled = false;
-      const won = segmentPoints[segment];
-      balance += won;
-      updateBalance();
-      resultWheel.textContent = `🎉 فزت بـ ${won} نقطة!`;
-    }, { once: true });
-  });
-
-  // --- حجر ورقة مقص ---
-  const rpsChoices = document.querySelectorAll('#rpsChoices button');
-  const rpsResult = document.getElementById('rpsResult');
-
-  const rpsCost = 5;
-
-  const rpsMap = {
-    rock: '✊',
-    paper: '✋',
-    scissors: '✌️'
-  };
-
-  rpsChoices.forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (balance < rpsCost) {
-        alert('ليس لديك نقاط كافية للعب.');
-        return;
-      }
-      balance -= rpsCost;
-      updateBalance();
-
-      const playerChoice = btn.getAttribute('data-choice');
-      const choices = ['rock', 'paper', 'scissors'];
-      const compChoice = choices[Math.floor(Math.random() * 3)];
-
-      let winner = '';
-      if (playerChoice === compChoice) {
-        winner = 'تعادل';
-        balance += rpsCost; // استرداد نقاط في حالة التعادل
-      } else if (
-        (playerChoice === 'rock' && compChoice === 'scissors') ||
-        (playerChoice === 'paper' && compChoice === 'rock') ||
-        (playerChoice === 'scissors' && compChoice === 'paper')
-      ) {
-        winner = 'فزت';
-        balance += rpsCost * 2; // مضاعفة المكافأة
-      } else {
-        winner = 'خسرت';
-      }
-      updateBalance();
-      rpsResult.textContent = `أنت: ${rpsMap[playerChoice]} - الكمبيوتر: ${rpsMap[compChoice]} → ${winner}`;
-    });
-  });
-
-  // --- نرد ---
-  const diceBtn = document.getElementById('diceBtn');
-  const diceResult = document.getElementById('diceResult');
-  const diceCost = 5;
-
-  diceBtn.addEventListener('click', () => {
-    if (balance < diceCost) {
-      alert('ليس لديك نقاط كافية للعب.');
-      return;
-    }
-    balance -= diceCost;
-    updateBalance();
-
+  function playDice() {
+    if (balance < 5) return alert('رصيد غير كافٍ');
+    balance -= 5;
     const roll = Math.floor(Math.random() * 6) + 1;
-    diceResult.textContent = `رميت النرد وحصلت على الرقم: ${roll}`;
+    let result = `🎲 رميت: ${roll}`;
     if (roll >= 4) {
-      const wonPoints = 10;
-      diceResult.textContent += ` - 🎉 فزت بـ ${wonPoints} نقاط!`;
-      balance += wonPoints;
-      updateBalance();
-    }
-  });
-
-  // --- تخمين رقم ---
-  const guessInput = document.getElementById('guessInput');
-  const guessBtn = document.getElementById('guessBtn');
-  const guessResult = document.getElementById('guessResult');
-  const guessCost = 5;
-
-  guessBtn.addEventListener('click', () => {
-    let guess = parseInt(guessInput.value);
-    if (isNaN(guess) || guess < 1 || guess > 10) {
-      alert('الرجاء إدخال رقم من 1 إلى 10.');
-      return;
-    }
-    if (balance < guessCost) {
-      alert('ليس لديك نقاط كافية للعب.');
-      return;
-    }
-    balance -= guessCost;
-    updateBalance();
-
-    const randomNumber = Math.floor(Math.random() * 10) + 1;
-    if (guess === randomNumber) {
-      const wonPoints = 30;
-      guessResult.textContent = `🎉 صحيح! الرقم هو ${randomNumber}. فزت بـ ${wonPoints} نقاط!`;
-      balance += wonPoints;
+      balance += 10;
+      winSound.play();
+      result += ' - فزت بـ 10 نقاط!';
     } else {
-      guessResult.textContent = `للأسف، الرقم كان ${randomNumber}. حاول مرة أخرى!`;
+      result += ' - لم تفز.';
+    }
+    document.getElementById('diceResult').textContent = result;
+    updateBalance();
+  }
+
+  function playRPS(player) {
+    if (balance < 5) return alert('رصيد غير كافٍ');
+    balance -= 5;
+    const choices = ['rock', 'paper', 'scissors'];
+    const map = { rock: '🪨', paper: '📄', scissors: '✂️' };
+    const comp = choices[Math.floor(Math.random() * 3)];
+    let result = `أنت: ${map[player]} | كمبيوتر: ${map[comp]}`;
+    if (
+      (player === 'rock' && comp === 'scissors') ||
+      (player === 'paper' && comp === 'rock') ||
+      (player === 'scissors' && comp === 'paper')
+    ) {
+      balance += 10;
+      result += ' → فزت!';
+      winSound.play();
+    } else if (player === comp) {
+      balance += 5;
+      result += ' → تعادل!';
+    } else {
+      result += ' → خسرت!';
+    }
+    document.getElementById('rpsResult').textContent = result;
+    updateBalance();
+  }
+
+  function playGuess() {
+    const guess = parseInt(document.getElementById('guessInput').value);
+    if (isNaN(guess) || guess < 1 || guess > 10) return alert('اختر رقم من 1 إلى 10');
+    if (balance < 5) return alert('رصيد غير كافٍ');
+    balance -= 5;
+    const number = Math.floor(Math.random() * 10) + 1;
+    if (guess === number) {
+      balance += 30;
+      winSound.play();
+      document.getElementById('guessResult').textContent = `🎯 صحيح! الرقم هو ${number}. فزت بـ 30 نقطة!`;
+    } else {
+      document.getElementById('guessResult').textContent = `❌ الرقم كان ${number}. حاول مرة أخرى.`;
     }
     updateBalance();
-  });
+  }
 
-  // --- سلوتس ---
-  const slotSpinBtn = document.getElementById('slotSpinBtn');
-  const slot1 = document.getElementById('slot1');
-  const slot2 = document.getElementById('slot2');
-  const slot3 = document.getElementById('slot3');
-  const slotResult = document.getElementById('slotResult');
-  const slotCost = 10;
-  const slotSymbols = ['🍒', '🍋', '🍊', '🍉', '⭐', '🔔'];
-
-  slotSpinBtn.addEventListener('click', () => {
-    if (balance < slotCost) {
-      alert('ليس لديك نقاط كافية للعب.');
-      return;
+  function spinSlots() {
+    if (balance < 10) return alert('رصيد غير كافٍ');
+    balance -= 10;
+    const symbols = ['🍒', '🍋', '🍊', '🍉', '⭐', '🔔'];
+    const r1 = symbols[Math.floor(Math.random() * symbols.length)];
+    const r2 = symbols[Math.floor(Math.random() * symbols.length)];
+    const r3 = symbols[Math.floor(Math.random() * symbols.length)];
+    document.getElementById('slotDisplay').textContent = `${r1} ${r2} ${r3}`;
+    let result = 'لم تفز.';
+    if (r1 === r2 && r2 === r3) {
+      balance += 50;
+      winSound.play();
+      result = '🎉 فزت بـ 50 نقطة!';
+    } else if (r1 === r2 || r2 === r3 || r1 === r3) {
+      balance += 15;
+      winSound.play();
+      result = '✨ زوج متشابه! فزت بـ 15 نقطة!';
     }
-    balance -= slotCost;
+    document.getElementById('slotResult').textContent = result;
     updateBalance();
-
-    slotResult.textContent = 'جارٍ التدوير...';
-    slotSpinBtn.disabled = true;
-
-    setTimeout(() => {
-      const reel1 = slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
-      const reel2 = slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
-      const reel3 = slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
-
-      slot1.textContent = reel1;
-      slot2.textContent = reel2;
-      slot3.textContent = reel3;
-
-      if (reel1 === reel2 && reel2 === reel3) {
-        const wonPoints = 50;
-        slotResult.textContent = `🎉 ثلاث ${reel1} متشابهة! فزت بـ ${wonPoints} نقاط!`;
-        balance += wonPoints;
-      } else if (reel1 === reel2 || reel2 === reel3 || reel1 === reel3) {
-        const wonPoints = 15;
-        slotResult.textContent = `🎉 زوج من الرموز متشابه! فزت بـ ${wonPoints} نقاط!`;
-        balance += wonPoints;
-      } else {
-        slotResult.textContent = 'حاول مرة أخرى!';
-      }
-      updateBalance();
-      slotSpinBtn.disabled = false;
-    }, 1500);
-  });
+  }
 </script>
-
 </body>
 </html>
