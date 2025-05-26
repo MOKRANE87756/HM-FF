@@ -4,22 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DzCourses - دورات جزائرية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Cairo', sans-serif;
       margin: 0;
       padding: 0;
       direction: rtl;
-      background-color: #f0f2f5;
+      background-color: #f9fbfd;
       color: #333;
+      scroll-behavior: smooth;
     }
 
     header {
-      background-color: #0d6efd;
+      background: linear-gradient(90deg, #0d6efd, #0a58ca);
       color: white;
-      padding: 1.5rem;
+      padding: 2rem 1rem;
       text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     nav {
@@ -27,13 +29,16 @@
       display: flex;
       justify-content: center;
       gap: 2rem;
-      padding: 0.8rem 0;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
     nav a {
       color: white;
       text-decoration: none;
-      font-weight: 500;
+      font-weight: bold;
       transition: color 0.3s;
     }
 
@@ -49,53 +54,65 @@
     }
 
     .hero h1 {
-      font-size: 2.8rem;
+      font-size: 3rem;
       margin-bottom: 1rem;
     }
 
     .hero p {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
     }
 
-    .courses {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
+    .features, .courses {
       max-width: 1200px;
       margin: auto;
+      padding: 2rem 1rem;
     }
 
-    .course {
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-around;
+    }
+
+    .feature, .course {
       background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
       padding: 1.5rem;
-      transition: transform 0.3s ease;
+      flex: 1 1 260px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .course:hover {
+    .feature:hover, .course:hover {
       transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
     }
 
-    .course h3 {
+    .feature h4, .course h3 {
       color: #0d6efd;
-      margin-bottom: 0.5rem;
-    }
-
-    .course p {
-      color: #555;
+      margin-bottom: 0.7rem;
     }
 
     .subscribe {
+      background: #e0f7ef;
       text-align: center;
       padding: 3rem 1rem;
-      background-color: #e9f7ef;
     }
 
     .subscribe h2 {
-      font-size: 2rem;
+      font-size: 2.2rem;
       margin-bottom: 1rem;
+    }
+
+    .subscribe input {
+      padding: 0.8rem;
+      width: 280px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 1rem;
     }
 
     .subscribe button {
@@ -106,7 +123,7 @@
       border-radius: 8px;
       font-size: 1.1rem;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s;
     }
 
     .subscribe button:hover {
@@ -115,103 +132,98 @@
 
     footer {
       text-align: center;
-      padding: 1rem;
+      padding: 1.5rem;
       background-color: #dee2e6;
       font-size: 0.95rem;
     }
 
-    .features {
-      background-color: #fff;
-      padding: 2rem;
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      gap: 1rem;
-      max-width: 1000px;
-      margin: 2rem auto;
-    }
-
-    .feature {
-      flex: 1 1 200px;
-      padding: 1rem;
-      border-radius: 10px;
-      background-color: #f8f9fa;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      text-align: center;
-    }
-
-    .feature h4 {
-      color: #0d6efd;
-      margin-bottom: 0.5rem;
-    }
-
-    .feature p {
-      color: #444;
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>منصة DzCourses</h1>
-    <p>دورات جزائرية أونلاين وحضوري باحترافية</p>
+    <p>أفضل مكان للتعلم المحلي في الجزائر</p>
   </header>
 
   <nav>
     <a href="#">الرئيسية</a>
-    <a href="#courses">الدورات</a>
     <a href="#features">مميزاتنا</a>
+    <a href="#courses">الدورات</a>
     <a href="#subscribe">اشترك</a>
     <a href="#contact">اتصل بنا</a>
   </nav>
 
   <section class="hero">
-    <h1>طوّر مهاراتك مع مدربين جزائريين</h1>
-    <p>تعلم من المنزل أو سجل في أقرب مركز إليك بأسعار مناسبة وجودة عالية</p>
+    <h1>تعلّم، تطوّر، انطلق!</h1>
+    <p>دورات مهنية وعملية بأيدي جزائرية في متناول الجميع</p>
   </section>
 
   <section class="features" id="features">
     <div class="feature">
-      <h4>مدربين محليين محترفين</h4>
-      <p>كل الدورات يقدمها جزائريون بخبرة معتمدة في المجال.</p>
+      <h4>مدربين جزائريين معتمدين</h4>
+      <p>نحن نعمل مع أفضل الخبراء المحليين في مجالات متعددة.</p>
     </div>
     <div class="feature">
-      <h4>شهادات معتمدة</h4>
-      <p>تحصل على شهادة حضور قابلة للطباعة أو التوثيق الرقمي.</p>
+      <h4>دورات حضورية وأونلاين</h4>
+      <p>اختر الطريقة المناسبة لك، من أي مكان في الجزائر.</p>
     </div>
     <div class="feature">
-      <h4>مرونة في الحضور</h4>
-      <p>اختر بين الدورات الحضورية أو الأونلاين حسب راحتك.</p>
+      <h4>شهادات رقمية وقابلة للطباعة</h4>
+      <p>احصل على شهادة بعد إتمام أي دورة لتقوية سيرتك الذاتية.</p>
+    </div>
+    <div class="feature">
+      <h4>أسعار مناسبة للجميع</h4>
+      <p>نقدم محتوى تعليمي عالي الجودة بأسعار تناسب السوق الجزائري.</p>
     </div>
   </section>
 
   <section class="courses" id="courses">
     <div class="course">
-      <h3>دورة برمجة للمبتدئين</h3>
-      <p>تعلم HTML، CSS، JavaScript من الصفر، مع مشروع عملي.</p>
+      <h3>برمجة الويب للمبتدئين</h3>
+      <p>ابدأ مسيرتك في تطوير المواقع من الصفر إلى الاحتراف.</p>
     </div>
     <div class="course">
-      <h3>الطرز التقليدي الجزائري</h3>
-      <p>تعلم فنون الطرز اليدوي مع مدربة محترفة، أونلاين أو في مركز محلي.</p>
+      <h3>فنون الطرز والخياطة</h3>
+      <p>دورات للنساء من أجل تعلم الحرف اليدوية بطريقة عملية.</p>
     </div>
     <div class="course">
-      <h3>اللغة الإنجليزية</h3>
-      <p>تحسين المهارات اللغوية للمبتدئين والمتقدمين، مع مدرب جزائري مختص.</p>
+      <h3>اللغة الإنجليزية للوظائف</h3>
+      <p>تطوير اللغة الإنجليزية للمقابلات والعمل مع مدرب محلي.</p>
+    </div>
+    <div class="course">
+      <h3>التحضير لمسابقات التوظيف</h3>
+      <p>دروس واختبارات تحضيرية لمختلف المسابقات الرسمية.</p>
     </div>
   </section>
 
   <section class="subscribe" id="subscribe">
-    <h2>سجّل الآن</h2>
-    <p>انضم إلى آلاف المتعلمين في الجزائر وابدأ رحلتك المهنية</p>
-    <button onclick="subscribeUser()">سجل مجانًا</button>
+    <h2>سجّل مجانًا الآن</h2>
+    <p>انضم إلى أكثر من 10,000 متعلم عبر التراب الوطني</p>
+    <input type="email" placeholder="أدخل بريدك الإلكتروني" id="email">
+    <br>
+    <button onclick="subscribeUser()">اشترك الآن</button>
   </section>
 
   <footer>
-    &copy; 2025 DzCourses. جميع الحقوق محفوظة.
+    &copy; 2025 DzCourses. جميع الحقوق محفوظة - تصميم وتطوير جزائري
   </footer>
 
   <script>
     function subscribeUser() {
-      alert("تم تسجيلك بنجاح! سيتم التواصل معك عبر البريد الإلكتروني قريبًا.");
+      const email = document.getElementById('email').value;
+      if (email.trim() === '') {
+        alert("يرجى إدخال بريد إلكتروني صالح للتسجيل.");
+      } else {
+        alert("شكرًا لك! تم تسجيلك بنجاح. سيتم التواصل معك قريبًا.");
+      }
     }
   </script>
 </body>
