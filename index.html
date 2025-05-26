@@ -6,122 +6,202 @@
   <title>DzCourses - دورات جزائرية</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
       direction: rtl;
-      background-color: #f5f5f5;
+      background-color: #f0f2f5;
+      color: #333;
     }
 
     header {
       background-color: #0d6efd;
       color: white;
-      padding: 1rem;
+      padding: 1.5rem;
       text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     nav {
       background-color: #084298;
       display: flex;
-      justify-content: space-around;
-      padding: 0.5rem;
+      justify-content: center;
+      gap: 2rem;
+      padding: 0.8rem 0;
     }
 
     nav a {
       color: white;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffc107;
     }
 
     .hero {
-      background: url('https://images.unsplash.com/photo-1600195077074-d171b10a8f57') center/cover;
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1600195077074-d171b10a8f57') center/cover;
       color: white;
       text-align: center;
-      padding: 5rem 1rem;
+      padding: 6rem 1rem;
     }
 
     .hero h1 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
     }
 
     .courses {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.5rem;
       padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
     }
 
     .course {
       background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      padding: 1rem;
-      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .course:hover {
+      transform: translateY(-5px);
     }
 
     .course h3 {
       color: #0d6efd;
+      margin-bottom: 0.5rem;
+    }
+
+    .course p {
+      color: #555;
     }
 
     .subscribe {
       text-align: center;
-      margin: 2rem 0;
+      padding: 3rem 1rem;
+      background-color: #e9f7ef;
+    }
+
+    .subscribe h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
     }
 
     .subscribe button {
-      padding: 0.8rem 1.5rem;
+      padding: 0.9rem 2rem;
       background-color: #198754;
       color: white;
       border: none;
-      border-radius: 5px;
-      font-size: 1rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
       cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .subscribe button:hover {
+      background-color: #157347;
     }
 
     footer {
       text-align: center;
       padding: 1rem;
-      background-color: #ddd;
-      font-size: 0.9rem;
+      background-color: #dee2e6;
+      font-size: 0.95rem;
+    }
+
+    .features {
+      background-color: #fff;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 1rem;
+      max-width: 1000px;
+      margin: 2rem auto;
+    }
+
+    .feature {
+      flex: 1 1 200px;
+      padding: 1rem;
+      border-radius: 10px;
+      background-color: #f8f9fa;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .feature h4 {
+      color: #0d6efd;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature p {
+      color: #444;
     }
   </style>
 </head>
 <body>
   <header>
     <h1>منصة DzCourses</h1>
-    <p>دورات جزائرية أونلاين وحضوري</p>
+    <p>دورات جزائرية أونلاين وحضوري باحترافية</p>
   </header>
 
   <nav>
     <a href="#">الرئيسية</a>
     <a href="#courses">الدورات</a>
+    <a href="#features">مميزاتنا</a>
     <a href="#subscribe">اشترك</a>
     <a href="#contact">اتصل بنا</a>
   </nav>
 
   <section class="hero">
     <h1>طوّر مهاراتك مع مدربين جزائريين</h1>
-    <p>تعلم من المنزل أو سجل في أقرب مركز إليك</p>
+    <p>تعلم من المنزل أو سجل في أقرب مركز إليك بأسعار مناسبة وجودة عالية</p>
+  </section>
+
+  <section class="features" id="features">
+    <div class="feature">
+      <h4>مدربين محليين محترفين</h4>
+      <p>كل الدورات يقدمها جزائريون بخبرة معتمدة في المجال.</p>
+    </div>
+    <div class="feature">
+      <h4>شهادات معتمدة</h4>
+      <p>تحصل على شهادة حضور قابلة للطباعة أو التوثيق الرقمي.</p>
+    </div>
+    <div class="feature">
+      <h4>مرونة في الحضور</h4>
+      <p>اختر بين الدورات الحضورية أو الأونلاين حسب راحتك.</p>
+    </div>
   </section>
 
   <section class="courses" id="courses">
     <div class="course">
       <h3>دورة برمجة للمبتدئين</h3>
-      <p>تعلم HTML، CSS، JavaScript من الصفر.</p>
+      <p>تعلم HTML، CSS، JavaScript من الصفر، مع مشروع عملي.</p>
     </div>
     <div class="course">
       <h3>الطرز التقليدي الجزائري</h3>
-      <p>تعلم فنون الطرز اليدوي مع مدربة محترفة.</p>
+      <p>تعلم فنون الطرز اليدوي مع مدربة محترفة، أونلاين أو في مركز محلي.</p>
     </div>
     <div class="course">
       <h3>اللغة الإنجليزية</h3>
-      <p>تحسين المهارات اللغوية للمبتدئين.</p>
+      <p>تحسين المهارات اللغوية للمبتدئين والمتقدمين، مع مدرب جزائري مختص.</p>
     </div>
   </section>
 
   <section class="subscribe" id="subscribe">
     <h2>سجّل الآن</h2>
-    <p>انضم إلى آلاف المتعلمين في الجزائر</p>
+    <p>انضم إلى آلاف المتعلمين في الجزائر وابدأ رحلتك المهنية</p>
     <button onclick="subscribeUser()">سجل مجانًا</button>
   </section>
 
@@ -131,7 +211,7 @@
 
   <script>
     function subscribeUser() {
-      alert("تم تسجيلك بنجاح! سيتم التواصل معك قريبًا.");
+      alert("تم تسجيلك بنجاح! سيتم التواصل معك عبر البريد الإلكتروني قريبًا.");
     }
   </script>
 </body>
