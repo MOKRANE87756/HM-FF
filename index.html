@@ -1,340 +1,138 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>🎮 تطبيق ألعاب نقاط - مع تسجيل مستخدم</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
-<style>
-  body {
-    margin: 0; font-family: 'Cairo', sans-serif; background: #121212; color: #fff; display: flex; height: 100vh;
-  }
-  .sidebar {
-    width: 220px; background: #1f1f1f; padding: 20px; display: flex; flex-direction: column;
-  }
-  .sidebar h2 {
-    margin-bottom: 15px; font-size: 22px;
-  }
-  .sidebar button {
-    background: #333; border: none; margin-bottom: 10px; padding: 10px; border-radius: 8px;
-    cursor: pointer; color: #fff; transition: background 0.3s;
-    text-align: right;
-  }
-  .sidebar button:hover {
-    background: #555;
-  }
-  .main {
-    flex-grow: 1; padding: 20px; overflow-y: auto;
-  }
-  .top-bar {
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
-  }
-  .balance {
-    background: #222; padding: 12px 20px; border-radius: 10px; font-weight: bold; font-size: 18px;
-  }
-  .lang-toggle {
-    background: #444; border: none; color: #fff; padding: 8px 14px; border-radius: 8px;
-    cursor: pointer; font-weight: 600;
-  }
-  .user-info {
-    background: #222; padding: 12px 20px; border-radius: 10px; margin-bottom: 15px;
-    font-size: 16px;
-  }
-  .game-list {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;
-  }
-  .game-card {
-    background: #1e1e1e; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.6);
-    transition: transform 0.3s ease;
-  }
-  .game-card:hover {
-    transform: scale(1.05);
-  }
-  .game-card h3 {
-    margin-bottom: 15px;
-  }
-  .game-card button {
-    background: #03dac6; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer;
-    font-weight: 700; color: #000;
-    transition: background 0.3s ease;
-  }
-  .game-card button:hover {
-    background: #00b89c;
-  }
-  .result {
-    margin-top: 12px; font-size: 15px; min-height: 25px; min-width: 100%;
-  }
-  input[type="number"], input[type="text"] {
-    width: 70px; padding: 7px; border-radius: 8px; border: none; margin-top: 10px;
-    font-size: 16px;
-  }
-  #loginSection {
-    background: #222; padding: 30px; border-radius: 15px; max-width: 300px; margin: auto;
-  }
-  #loginSection input[type="text"] {
-    width: 100%; margin-bottom: 15px;
-  }
-  #loginSection button {
-    width: 100%; padding: 12px; font-size: 16px; font-weight: 700;
-    background: #03dac6; border: none; border-radius: 8px; cursor: pointer; color: #000;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DzCourses - دورات جزائرية</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+      background-color: #f5f5f5;
+    }
+
+    header {
+      background-color: #0d6efd;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #084298;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .hero {
+      background: url('https://images.unsplash.com/photo-1600195077074-d171b10a8f57') center/cover;
+      color: white;
+      text-align: center;
+      padding: 5rem 1rem;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+
+    .courses {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 2rem;
+    }
+
+    .course {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .course h3 {
+      color: #0d6efd;
+    }
+
+    .subscribe {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .subscribe button {
+      padding: 0.8rem 1.5rem;
+      background-color: #198754;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #ddd;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <h1>منصة DzCourses</h1>
+    <p>دورات جزائرية أونلاين وحضوري</p>
+  </header>
 
-<div class="sidebar">
-  <h2>🎮 القائمة</h2>
-  <button onclick="showSection('games')">🕹️ الألعاب</button>
-  <button onclick="showSection('achievements')">🏆 الإنجازات</button>
-  <button onclick="showSection('leaderboard')">📈 المتصدرين</button>
-  <button onclick="resetGame()">🔄 إعادة تعيين</button>
-  <button onclick="toggleSound()">🔇/🔊 كتم الصوت</button>
-  <button class="lang-toggle" onclick="toggleLanguage()">🌐 اللغة</button>
-  <button id="logoutBtn" onclick="logout()" style="display:none; background:#b33;">تسجيل خروج</button>
-</div>
+  <nav>
+    <a href="#">الرئيسية</a>
+    <a href="#courses">الدورات</a>
+    <a href="#subscribe">اشترك</a>
+    <a href="#contact">اتصل بنا</a>
+  </nav>
 
-<div class="main">
+  <section class="hero">
+    <h1>طوّر مهاراتك مع مدربين جزائريين</h1>
+    <p>تعلم من المنزل أو سجل في أقرب مركز إليك</p>
+  </section>
 
-  <div id="loginSection">
-    <h2>تسجيل الدخول</h2>
-    <input type="text" id="usernameInput" placeholder="أدخل اسم المستخدم" />
-    <button onclick="login()">تسجيل دخول</button>
-  </div>
-
-  <div id="appContent" style="display:none;">
-    <div class="top-bar">
-      <div class="user-info" id="userInfo"></div>
-      <div class="balance" id="balance">رصيدك: 0 نقطة</div>
-      <div id="language">اللغة: العربية</div>
+  <section class="courses" id="courses">
+    <div class="course">
+      <h3>دورة برمجة للمبتدئين</h3>
+      <p>تعلم HTML، CSS، JavaScript من الصفر.</p>
     </div>
-
-    <div id="section-games" class="section">
-      <div class="game-list">
-
-        <!-- الألعاب هنا مثل السابق -->
-        <div class="game-card">
-          <h3>🎲 النرد (5 نقاط)</h3>
-          <button onclick="playDice()">العب</button>
-          <div class="result" id="diceResult"></div>
-        </div>
-        <div class="game-card">
-          <h3>✂️ حجر ورق مقص (5 نقاط)</h3>
-          <button onclick="playRPS('rock')">🪨</button>
-          <button onclick="playRPS('paper')">📄</button>
-          <button onclick="playRPS('scissors')">✂️</button>
-          <div class="result" id="rpsResult"></div>
-        </div>
-        <!-- أضف باقي الألعاب كما في النسخة السابقة -->
-
-      </div>
+    <div class="course">
+      <h3>الطرز التقليدي الجزائري</h3>
+      <p>تعلم فنون الطرز اليدوي مع مدربة محترفة.</p>
     </div>
-
-    <div id="section-achievements" class="section" style="display:none;">
-      <h2>🏆 الإنجازات</h2>
-      <ul id="achievementsList"></ul>
+    <div class="course">
+      <h3>اللغة الإنجليزية</h3>
+      <p>تحسين المهارات اللغوية للمبتدئين.</p>
     </div>
+  </section>
 
-    <div id="section-leaderboard" class="section" style="display:none;">
-      <h2>📈 المتصدرين</h2>
-      <ol id="leaderboardList"></ol>
-    </div>
-  </div>
-</div>
+  <section class="subscribe" id="subscribe">
+    <h2>سجّل الآن</h2>
+    <p>انضم إلى آلاف المتعلمين في الجزائر</p>
+    <button onclick="subscribeUser()">سجل مجانًا</button>
+  </section>
 
-<script>
-let currentUser = null;
-let balance = 0;
-let achievements = new Set();
-let leaderboard = [];
-let mute = false;
-let language = "ar";
+  <footer>
+    &copy; 2025 DzCourses. جميع الحقوق محفوظة.
+  </footer>
 
-function saveUserData() {
-  if (!currentUser) return;
-  localStorage.setItem("user_" + currentUser, JSON.stringify({
-    balance,
-    achievements: [...achievements]
-  }));
-}
-
-function loadUserData() {
-  if (!currentUser) return;
-  let data = localStorage.getItem("user_" + currentUser);
-  if (data) {
-    let obj = JSON.parse(data);
-    balance = obj.balance || 100;
-    achievements = new Set(obj.achievements || []);
-  } else {
-    balance = 100;
-    achievements = new Set();
-  }
-}
-
-function login() {
-  let username = document.getElementById("usernameInput").value.trim();
-  if (!username) {
-    alert("يرجى إدخال اسم المستخدم");
-    return;
-  }
-  currentUser = username;
-  loadUserData();
-  loadLeaderboard();
-  document.getElementById("loginSection").style.display = "none";
-  document.getElementById("appContent").style.display = "block";
-  document.getElementById("logoutBtn").style.display = "block";
-  document.getElementById("userInfo").textContent = `مرحباً، ${currentUser}`;
-  updateBalance();
-  updateAchievements();
-  updateLeaderboard();
-}
-
-function logout() {
-  saveUserData();
-  currentUser = null;
-  document.getElementById("loginSection").style.display = "block";
-  document.getElementById("appContent").style.display = "none";
-  document.getElementById("logoutBtn").style.display = "none";
-  document.getElementById("usernameInput").value = "";
-}
-
-// التوازن
-function updateBalance() {
-  document.getElementById("balance").textContent = `رصيدك: ${balance} نقطة`;
-  saveUserData();
-  checkAchievements();
-  updateLeaderboard();
-}
-
-// إعادة تعيين
-function resetGame() {
-  if (!currentUser) return alert("يجب تسجيل الدخول أولاً");
-  if (confirm("هل تريد إعادة تعيين الرصيد والإنجازات؟")) {
-    balance = 100;
-    achievements.clear();
-    saveUserData();
-    updateBalance();
-    updateAchievements();
-  }
-}
-
-// الإنجازات
-function updateAchievements() {
-  const list = document.getElementById("achievementsList");
-  list.innerHTML = "";
-  if (achievements.size === 0) {
-    list.innerHTML = "<li>لا توجد إنجازات حتى الآن</li>";
-    return;
-  }
-  achievements.forEach(a => {
-    const li = document.createElement("li");
-    li.textContent = a;
-    list.appendChild(li);
-  });
-}
-
-function checkAchievements() {
-  if (balance >= 200 && !achievements.has("🏅 وصلت إلى 200 نقطة!")) achievements.add("🏅 وصلت إلى 200 نقطة!");
-  if (balance >= 500 && !achievements.has("🥇 وصلت إلى 500 نقطة!")) achievements.add("🥇 وصلت إلى 500 نقطة!");
-  updateAchievements();
-}
-
-// المتصدرين
-function loadLeaderboard() {
-  let data = localStorage.getItem("leaderboard");
-  leaderboard = data ? JSON.parse(data) : [];
-}
-
-function updateLeaderboard() {
-  if (!currentUser) return;
-  // تحديث أو إضافة
-  let found = false;
-  for (let i = 0; i < leaderboard.length; i++) {
-    if (leaderboard[i].name === currentUser) {
-      leaderboard[i].score = balance;
-      found = true;
-      break;
+  <script>
+    function subscribeUser() {
+      alert("تم تسجيلك بنجاح! سيتم التواصل معك قريبًا.");
     }
-  }
-  if (!found) {
-    leaderboard.push({ name: currentUser, score: balance });
-  }
-  leaderboard.sort((a,b) => b.score - a.score);
-  leaderboard = leaderboard.slice(0, 10);
-  localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
-  const list = document.getElementById("leaderboardList");
-  list.innerHTML = "";
-  leaderboard.forEach(entry => {
-    const li = document.createElement("li");
-    li.textContent = `${entry.name}: ${entry.score} نقاط`;
-    list.appendChild(li);
-  });
-}
-
-// لغة
-function toggleLanguage() {
-  language = language === "ar" ? "en" : "ar";
-  document.getElementById("language").textContent = language === "ar" ? "اللغة: العربية" : "Language: English";
-  // يمكن إضافة ترجمة باقي النصوص هنا
-}
-
-// كتم الصوت
-function toggleSound() {
-  mute = !mute;
-  alert(mute ? "تم كتم الصوت" : "تم تشغيل الصوت");
-}
-
-// التحقق من تسجيل الدخول قبل اللعب
-function requireLogin() {
-  if (!currentUser) {
-    alert("يجب تسجيل الدخول أولاً");
-    return false;
-  }
-  return true;
-}
-
-// === الألعاب ===
-<a href="games.html">اذهب إلى صفحة الألعاب</a>
-
-// 1. النرد
-function playDice() {
-  if (!requireLogin()) return;
-  if (balance < 5) return alert("رصيدك غير كافٍ للعب!");
-  balance -= 5;
-  updateBalance();
-  const dice = Math.floor(Math.random() * 6) + 1;
-  const win = dice >= 4; // 4,5,6 تربح
-  if (win) balance += 10;
-  updateBalance();
-  document.getElementById("diceResult").textContent = `نتيجة النرد: ${dice} - ${win ? "رابح!" : "خسر!"}`;
-}
-
-// 2. حجر ورق مقص
-function playRPS(choice) {
-  if (!requireLogin()) return;
-  if (balance < 5) return alert("رصيدك غير كافٍ للعب!");
-  balance -= 5;
-  updateBalance();
-  const options = ["rock", "paper", "scissors"];
-  const computer = options[Math.floor(Math.random() * 3)];
-  let result = "";
-  if (choice === computer) result = "تعادل";
-  else if (
-    (choice === "rock" && computer === "scissors") ||
-    (choice === "paper" && computer === "rock") ||
-    (choice === "scissors" && computer === "paper")
-  ) {
-    result = "رابح!";
-    balance += 10;
-  } else {
-    result = "خسر!";
-  }
-  updateBalance();
-  document.getElementById("rpsResult").textContent = `انت: ${choice} | الكمبيوتر: ${computer} - ${result}`;
-}
-
-// يمكن إضافة باقي الألعاب بنفس الطريقة مع التحقق من تسجيل الدخول وتحديث الرصيد.
-
-</script>
-
+  </script>
 </body>
 </html>
