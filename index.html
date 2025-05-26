@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DzCourses - دورات جزائرية</title>
+  <link rel="manifest" href="manifest.json">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     * {
@@ -219,6 +220,12 @@
   </footer>
 
   <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('✅ تم تسجيل Service Worker'))
+        .catch(err => console.log('❌ فشل التسجيل:', err));
+    }
+
     function subscribeUser() {
       const email = document.getElementById('email').value;
       if (email.trim() === '') {
