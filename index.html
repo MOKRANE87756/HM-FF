@@ -3,178 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DzCourses - دورات جزائرية</title>
+  <title>DzCourses - منصة تعليمية جزائرية</title>
   <link rel="manifest" href="manifest.json">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
     body {
       font-family: 'Cairo', sans-serif;
       direction: rtl;
-      background: #f2f5f9;
-      color: #333;
-      scroll-behavior: smooth;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
     }
     header {
       background: linear-gradient(120deg, #007bff, #6610f2);
       color: white;
       text-align: center;
       padding: 3rem 1rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    }
-    header h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-    }
-    header p {
-      font-size: 1.2rem;
-      opacity: 0.9;
     }
     nav {
-      background: white;
+      background-color: white;
       display: flex;
       justify-content: center;
-      gap: 2rem;
+      gap: 1rem;
       padding: 1rem;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     nav a {
+      text-decoration: none;
       color: #333;
       font-weight: bold;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      transition: all 0.3s;
-    }
-    nav a:hover {
-      background: #007bff;
-      color: white;
-    }
-    .hero {
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1600195077074-d171b10a8f57') center/cover no-repeat;
-      color: white;
-      padding: 6rem 2rem;
-      text-align: center;
-    }
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: 1.3rem;
     }
     section {
-      padding: 3rem 1rem;
-      max-width: 1200px;
+      padding: 2rem;
+      max-width: 600px;
       margin: auto;
     }
-    .features, .courses {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-    .feature, .course {
-      background: white;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .feature:hover, .course:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    }
-    .feature h4, .course h3 {
-      margin-bottom: 1rem;
-      color: #007bff;
-    }
-    .feature p, .course p {
-      font-size: 0.95rem;
-      color: #555;
-    }
-    .subscribe {
-      background: #e8f9f1;
-      border-top: 4px solid #20c997;
-      border-bottom: 4px solid #20c997;
-      text-align: center;
-      padding: 3rem 2rem;
-      border-radius: 12px;
-    }
-    .subscribe h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    .subscribe input {
-      padding: 0.9rem;
-      width: 280px;
-      max-width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 1rem;
-      margin-bottom: 1rem;
-    }
-    .subscribe button {
-      padding: 0.9rem 2rem;
-      background-color: #20c997;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .subscribe button:hover {
-      background-color: #17a589;
-    }
-    .auth-section {
-      background: white;
-      max-width: 500px;
-      margin: 2rem auto;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-    .auth-section h2 {
-      margin-bottom: 1rem;
-      text-align: center;
-      color: #007bff;
-    }
-    .auth-section input {
+    input, button {
       display: block;
       width: 100%;
+      margin: 0.5rem 0;
       padding: 0.8rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
       font-size: 1rem;
     }
-    .auth-section button {
-      width: 100%;
-      padding: 0.9rem;
-      background-color: #007bff;
+    .hidden { display: none; }
+    #account-page { text-align: center; }
+    button.logout-btn {
+      background: #dc3545;
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .auth-section button:hover {
-      background-color: #0056b3;
-    }
-    footer {
-      text-align: center;
-      padding: 2rem;
-      background: #f1f3f5;
-      color: #555;
-      font-size: 0.95rem;
     }
   </style>
 </head>
@@ -185,86 +61,94 @@
   </header>
 
   <nav>
-    <a href="#">الرئيسية</a>
-    <a href="#features">مميزاتنا</a>
-    <a href="#courses">الدورات</a>
-    <a href="#subscribe">اشترك</a>
-    <a href="#login">دخول</a>
+    <a href="#" onclick="showPage('login-page')">دخول</a>
+    <a href="#" onclick="showPage('register-page')">تسجيل</a>
+    <a href="#" onclick="showPage('account-page')">حسابي</a>
   </nav>
 
-  <section class="hero">
-    <h1>تعلّم، تطوّر، انطلق!</h1>
-    <p>دورات مهنية وعملية بأيدي جزائرية في متناول الجميع</p>
-  </section>
-
-  <section class="features" id="features">
-    <!-- المحتوى كما هو -->
-  </section>
-
-  <section class="courses" id="courses">
-    <!-- المحتوى كما هو -->
-  </section>
-
-  <section class="subscribe" id="subscribe">
-    <!-- المحتوى كما هو -->
-  </section>
-
-  <section class="auth-section" id="login">
-    <h2>تسجيل الدخول</h2>
-    <input type="email" placeholder="البريد الإلكتروني" id="login-email">
-    <input type="password" placeholder="كلمة المرور" id="login-password">
-    <button onclick="loginUser()">دخول</button>
-    <p style="text-align:center; margin-top:1rem;">ليس لديك حساب؟ <a href="#register">سجّل الآن</a></p>
-  </section>
-
-  <section class="auth-section" id="register">
-    <h2>إنشاء حساب جديد</h2>
-    <input type="text" placeholder="الاسم الكامل" id="reg-name">
-    <input type="email" placeholder="البريد الإلكتروني" id="reg-email">
-    <input type="password" placeholder="كلمة المرور" id="reg-password">
+  <section id="register-page">
+    <h2>تسجيل حساب جديد</h2>
+    <input type="text" id="reg-name" placeholder="الاسم الكامل">
+    <input type="email" id="reg-email" placeholder="البريد الإلكتروني">
+    <input type="password" id="reg-password" placeholder="كلمة المرور">
     <button onclick="registerUser()">تسجيل</button>
   </section>
 
-  <footer>
-    &copy; 2025 DzCourses. جميع الحقوق محفوظة - تصميم وتطوير جزائري
-  </footer>
+  <section id="login-page" class="hidden">
+    <h2>تسجيل الدخول</h2>
+    <input type="email" id="login-email" placeholder="البريد الإلكتروني">
+    <input type="password" id="login-password" placeholder="كلمة المرور">
+    <button onclick="loginUser()">دخول</button>
+  </section>
+
+  <section id="account-page" class="hidden">
+    <h2>مرحباً بك</h2>
+    <p id="user-info"></p>
+    <button class="logout-btn" onclick="logoutUser()">تسجيل الخروج</button>
+  </section>
 
   <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(reg => console.log('✅ تم تسجيل Service Worker'))
-        .catch(err => console.log('❌ فشل التسجيل:', err));
-    }
+    const regPage = document.getElementById("register-page");
+    const loginPage = document.getElementById("login-page");
+    const accountPage = document.getElementById("account-page");
+    const userInfo = document.getElementById("user-info");
 
-    function subscribeUser() {
-      const email = document.getElementById('email').value;
-      if (email.trim() === '') {
-        alert("يرجى إدخال بريد إلكتروني صالح للتسجيل.");
-      } else {
-        alert("شكرًا لك! تم تسجيلك بنجاح. سيتم التواصل معك قريبًا.");
-      }
-    }
-
-    function loginUser() {
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
-      if (email && password) {
-        alert("✅ تم تسجيل الدخول بنجاح (وهمي)");
-      } else {
-        alert("❌ يرجى ملء جميع الحقول");
-      }
+    function showPage(page) {
+      regPage.classList.add("hidden");
+      loginPage.classList.add("hidden");
+      accountPage.classList.add("hidden");
+      document.getElementById(page).classList.remove("hidden");
     }
 
     function registerUser() {
-      const name = document.getElementById('reg-name').value;
-      const email = document.getElementById('reg-email').value;
-      const password = document.getElementById('reg-password').value;
-      if (name && email && password) {
-        alert("🎉 تم التسجيل بنجاح (وهمي)");
+      const name = document.getElementById("reg-name").value;
+      const email = document.getElementById("reg-email").value;
+      const password = document.getElementById("reg-password").value;
+
+      if (!name || !email || !password) {
+        alert("يرجى ملء جميع الحقول.");
+        return;
+      }
+
+      const user = { name, email, password };
+      localStorage.setItem("user", JSON.stringify(user));
+      alert("تم التسجيل بنجاح.");
+      showPage("login-page");
+    }
+
+    function loginUser() {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+
+      if (storedUser && storedUser.email === email && storedUser.password === password) {
+        localStorage.setItem("loggedIn", true);
+        showAccountPage(storedUser);
       } else {
-        alert("❌ يرجى ملء جميع الحقول");
+        alert("بيانات الدخول غير صحيحة.");
       }
     }
+
+    function showAccountPage(user) {
+      userInfo.innerText = `الاسم: ${user.name}\nالبريد: ${user.email}`;
+      showPage("account-page");
+    }
+
+    function logoutUser() {
+      localStorage.removeItem("loggedIn");
+      showPage("login-page");
+    }
+
+    window.onload = () => {
+      const isLoggedIn = localStorage.getItem("loggedIn");
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (isLoggedIn && user) {
+        showAccountPage(user);
+      } else {
+        showPage("register-page");
+      }
+    };
   </script>
 </body>
 </html>
