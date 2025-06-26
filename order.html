@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>طلب منتج</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>طلب منتج</h1>
+    </header>
+    <main>
+        <form id="orderForm">
+            <input type="text" id="name" placeholder="اسمك" required><br>
+            <input type="text" id="product" placeholder="اسم المنتج" required><br>
+            <input type="text" id="address" placeholder="العنوان" required><br>
+            <button type="submit">أرسل الطلب</button>
+        </form>
+        <a href="index.html">↩ الرجوع للرئيسية</a>
+    </main>
+    <script>
+        document.getElementById("orderForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const name = document.getElementById("name").value;
+            const product = document.getElementById("product").value;
+            const address = document.getElementById("address").value;
+            const subject = encodeURIComponent("طلب منتج جديد");
+            const body = encodeURIComponent(
+                `الاسم: ${name}\nالمنتج: ${product}\nالعنوان: ${address}`
+            );
+            window.location.href = `mailto:hamdaouimokrane@gmail.com?subject=${subject}&body=${body}`;
+        });
+    </script>
+</body>
+</html>
